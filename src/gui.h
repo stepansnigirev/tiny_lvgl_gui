@@ -26,7 +26,7 @@ public:
 
 class GUIObject{
 public:
-  lv_obj_t * obj = NULL;
+  lv_obj_t * obj;
   void lv_object(lv_obj_t * o);
   lv_obj_t * lv_object();
   void size(uint16_t width, uint16_t height);
