@@ -38,20 +38,6 @@ void GUI::update(){
 }
 uint16_t GUI::width(){ return TFT_HOR_RES; }
 uint16_t GUI::height(){ return TFT_VER_RES; }
-Label GUI::label(const char * txt){
-  lv_obj_t * lbl = lv_label_create(lv_scr_act(), NULL);
-  lv_label_set_text(lbl, txt);
-  Label l(lbl);
-  return l;
-}
-Button GUI::button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt){
-  lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);
-  lv_btn_set_action(btn, LV_BTN_ACTION_CLICK, callback);
-  lv_obj_t * lbl = lv_label_create(btn, NULL);
-  lv_label_set_text(lbl, txt);
-  Button b(btn);
-  return b;
-}
 void GUI::clear(){
   lv_obj_clean(lv_scr_act());
 }
@@ -78,6 +64,11 @@ void GUIObject::align(int mode){
 
 /********* Label class *********/
 
+Label::Label(const char * txt){
+  obj = lv_label_create(lv_scr_act(), NULL);
+  lv_label_set_text(obj, txt);
+  lv_label_set_long_mode(obj, LV_LABEL_LONG_BREAK);
+}
 Label::Label(lv_obj_t * lbl){
   obj = lbl;
   lv_label_set_long_mode(obj, LV_LABEL_LONG_BREAK);
@@ -98,6 +89,13 @@ Button::Button(lv_obj_t * btn){
   // lv_cont_set_fit(obj, true, true);
   label = Label(lv_obj_get_child(btn, NULL));
   // lv_obj_set_free_num(obj, (uint32_t)this);
+}
+Button::Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt){
+  obj = lv_btn_create(lv_scr_act(), NULL);
+  lv_btn_set_action(obj, LV_BTN_ACTION_CLICK, callback);
+  lv_obj_t * lbl = lv_label_create(obj, NULL);
+  lv_label_set_text(lbl, txt);
+  label = Label(lv_obj_get_child(obj, NULL));
 }
 void Button::size(uint16_t width, uint16_t height){
   // lv_cont_set_fit(obj, false, false);

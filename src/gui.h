@@ -18,8 +18,6 @@ class GUI{
 public:
   void init();
   void update();
-  Label label(const char * txt = "Label");
-  Button button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt = "Button");
   uint16_t width();
   uint16_t height();
   void clear(); // Clear the display. All components will be deleted.
@@ -39,6 +37,7 @@ class Label : public GUIObject{
 public:
   Label(){};
   Label(lv_obj_t * lbl);
+  Label(const char * txt);
   void text(const char * txt);
   void align_text(int mode);
 };
@@ -48,8 +47,8 @@ public:
   uint32_t _id;
   Label label;
   Button(){};
-  // Button(lv_obj_t * btn, lv_obj_t * lbl);
   Button(lv_obj_t * btn);
+  Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt);
   void size(uint16_t width, uint16_t height);
   void id(uint32_t);
   uint32_t id();
