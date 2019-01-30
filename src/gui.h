@@ -19,7 +19,7 @@ public:
   void init();
   void update();
   Label label(const char * txt = "Label");
-  Button button(void (*callback)(Button *), const char * txt = "Button");
+  Button button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt = "Button");
   uint16_t width();
   uint16_t height();
   void clear(); // Clear the display. All components will be deleted.
@@ -45,12 +45,14 @@ public:
 
 class Button : public GUIObject{
 public:
-  uint32_t id;
-  void (*callback)(Button *btn);
+  uint32_t _id;
   Label label;
   Button(){};
-  Button(lv_obj_t * btn, lv_obj_t * lbl, void (*callback)(Button *));
+  // Button(lv_obj_t * btn, lv_obj_t * lbl);
+  Button(lv_obj_t * btn);
   void size(uint16_t width, uint16_t height);
+  void id(uint32_t);
+  uint32_t id();
 };
 
 #endif // LVGL_MIN_GUI_H
