@@ -11,6 +11,13 @@ static void onMillisecondTicker(void){
   t++;
 }
 
+/* button callback */
+static lv_res_t btn_click_action(lv_obj_t * btn){
+  Button * b = (Button *)lv_obj_get_free_num(btn);
+  b->callback(b);
+  return LV_RES_OK; /*Return OK if the button is not deleted*/
+}
+
 /********* GUI class *********/
 
 void GUI::init(){
@@ -43,12 +50,15 @@ Label GUI::label(const char * txt){
   lv_label_set_text(lbl, txt);
   return Label(lbl);
 }
-Button GUI::button(lv_res_t (*callback)(lv_obj_t *), const char * txt){
+Button GUI::button(void (*callback)(Button *), const char * txt){
   lv_obj_t * btn = lv_btn_create(lv_scr_act(), NULL);
-  lv_btn_set_action(btn, LV_BTN_ACTION_CLICK, callback);
+  lv_btn_set_action(btn, LV_BTN_ACTION_CLICK, btn_click_action);
   lv_obj_t * lbl = lv_label_create(btn, NULL);
   lv_label_set_text(lbl, txt);
-  return Button(btn, lbl);
+  return Button(btn, lbl, callback);
+}
+void GUI::clear(){
+  lv_obj_clean(lv_scr_act());
 }
 
 /********* GUIObject *********/
@@ -88,10 +98,12 @@ void Label::align_text(int mode){
 
 /********* Button class *********/
 
-Button::Button(lv_obj_t * btn, lv_obj_t * lbl){
+Button::Button(lv_obj_t * btn, lv_obj_t * lbl, void (*cb)(Button *)){
   obj = btn;
   lv_cont_set_fit(obj, true, true);
   label = Label(lbl);
+  lv_obj_set_free_num(obj, (uint32_t)this);
+  callback = cb;
 }
 void Button::size(uint16_t width, uint16_t height){
   lv_cont_set_fit(obj, false, false);

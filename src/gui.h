@@ -19,9 +19,10 @@ public:
   void init();
   void update();
   Label label(const char * txt = "Label");
-  Button button(lv_res_t (*callback)(lv_obj_t *), const char * txt = "Button");
+  Button button(void (*callback)(Button *), const char * txt = "Button");
   uint16_t width();
   uint16_t height();
+  void clear(); // Clear the display. All components will be deleted.
 };
 
 class GUIObject{
@@ -44,9 +45,11 @@ public:
 
 class Button : public GUIObject{
 public:
+  uint32_t id;
+  void (*callback)(Button *btn);
   Label label;
   Button(){};
-  Button(lv_obj_t * btn, lv_obj_t * lbl);
+  Button(lv_obj_t * btn, lv_obj_t * lbl, void (*callback)(Button *));
   void size(uint16_t width, uint16_t height);
 };
 

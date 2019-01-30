@@ -13,12 +13,11 @@ Label lbl;   /* label in the global scope, we will change text from the button c
 int cnt = 0; /* click counter */
 
 /* button callback */
-static lv_res_t btn_click_action(lv_obj_t * btn){
+static void callback(Button * b){
   cnt++;
   char msg[40];
-  sprintf(msg, "Button clicked %d times", cnt);
+  sprintf(msg, "Button clicked %d times!", cnt);
   lbl.text(msg);
-  return LV_RES_OK; /*Return OK if the button is not deleted*/
 }
 
 int main() {
@@ -32,7 +31,7 @@ int main() {
   lbl.align_text(ALIGN_TEXT_CENTER);
 
   /* Create a button */
-  Button btn = gui.button(btn_click_action, "Click me!");
+  Button btn = gui.button(callback, "Click me!");
   btn.size(300, 100);
   btn.position(0, 300);
   btn.align(ALIGN_CENTER);
