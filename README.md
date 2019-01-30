@@ -19,6 +19,7 @@ static lv_res_t callback(lv_obj_t * btn){
   char msg[40];
   sprintf(msg, "Button clicked %d times!", cnt);
   lbl.text(msg);
+  return LV_RES_OK;
 }
 
 int main() {
