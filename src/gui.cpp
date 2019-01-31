@@ -69,6 +69,11 @@ Label::Label(const char * txt){
   lv_label_set_text(obj, txt);
   lv_label_set_long_mode(obj, LV_LABEL_LONG_BREAK);
 }
+Label::Label(std::string txt){
+  obj = lv_label_create(lv_scr_act(), NULL);
+  lv_label_set_text(obj, txt.c_str());
+  lv_label_set_long_mode(obj, LV_LABEL_LONG_BREAK);
+}
 Label::Label(lv_obj_t * lbl){
   obj = lbl;
   lv_label_set_long_mode(obj, LV_LABEL_LONG_BREAK);
@@ -76,6 +81,9 @@ Label::Label(lv_obj_t * lbl){
 void Label::text(const char * txt){
   if(obj == NULL){ return; }
   lv_label_set_text(obj, txt);
+}
+void Label::text(std::string txt){
+  text(txt.c_str());
 }
 void Label::align_text(int mode){
   if(obj == NULL){ return; }
@@ -95,6 +103,13 @@ Button::Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt){
   lv_btn_set_action(obj, LV_BTN_ACTION_CLICK, callback);
   lv_obj_t * lbl = lv_label_create(obj, NULL);
   lv_label_set_text(lbl, txt);
+  label = Label(lv_obj_get_child(obj, NULL));
+}
+Button::Button(lv_res_t (*callback)(lv_obj_t * btn), std::string txt){
+  obj = lv_btn_create(lv_scr_act(), NULL);
+  lv_btn_set_action(obj, LV_BTN_ACTION_CLICK, callback);
+  lv_obj_t * lbl = lv_label_create(obj, NULL);
+  lv_label_set_text(lbl, txt.c_str());
   label = Label(lv_obj_get_child(obj, NULL));
 }
 void Button::size(uint16_t width, uint16_t height){

@@ -2,6 +2,7 @@
 #define LVGL_MIN_GUI_H
 
 #include <lvgl.h>
+#include <string>
 
 #define ALIGN_CENTER LV_ALIGN_IN_TOP_MID
 #define ALIGN_LEFT   LV_ALIGN_IN_TOP_LEFT
@@ -38,7 +39,9 @@ public:
   Label(){};
   Label(lv_obj_t * lbl);
   Label(const char * txt);
+  Label(std::string txt);
   void text(const char * txt);
+  void text(std::string txt);
   void align_text(int mode);
 };
 
@@ -49,6 +52,7 @@ public:
   Button(){};
   Button(lv_obj_t * btn);
   Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt);
+  Button(lv_res_t (*callback)(lv_obj_t * btn), std::string txt);
   void size(uint16_t width, uint16_t height);
   void id(uint32_t);
   uint32_t id();
