@@ -1,3 +1,8 @@
+/** @file gui.h
+ *  A header file defining classes of the tiny C++ lvgl wrapper.
+ *  Only simple Label and Button classes are implemented.
+ */
+
 #ifndef LVGL_MIN_GUI_H
 #define LVGL_MIN_GUI_H
 
