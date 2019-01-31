@@ -15,12 +15,61 @@
 class Label;
 class Button;
 
+/** GUI class.
+ *  Used to initialize the littlevgl library, the display and the touchscreen.
+ *  Contains
+ *  Example:
+ *  @code
+ *  #include <mbed.h>
+ *  #include <gui.h>
+ *
+ *  GUI gui;     // our GUI instance
+ *  Label lbl;   // label in the global scope, we will change text from the button callback
+ *  int cnt = 0; // click counter
+ *
+ *  // button callback, default lvgl type
+ *  static lv_res_t callback(lv_obj_t * btn){
+ *    // Button button(btn); // can be converted to C++ class
+ *    cnt++;
+ *    char msg[40];
+ *    sprintf(msg, "Button clicked %d times!", cnt);
+ *    lbl.text(msg);
+ *    return LV_RES_OK;
+ *  }
+ *
+ *  int main() {
+ *
+ *    gui.init();
+ *
+ *    // Create a label to log clicks
+ *    lbl = Label("Hello display!");
+ *    lbl.size(gui.width(), 100); // full width
+ *    lbl.position(0, 200);
+ *    lbl.align_text(ALIGN_TEXT_CENTER);
+ *
+ *    // Create a button
+ *    Button btn(callback, "Click me!");
+ *    btn.size(300, 100);
+ *    btn.position(0, 300);
+ *    btn.align(ALIGN_CENTER);
+ *
+ *    while(1) {
+ *      gui.update();
+ *    }
+ *  }
+ *  @endcode
+ */
 class GUI{
 public:
+  /** Initialize and register the drivers. Should be called first in the very beginning */
   void init();
+  /** Update the GUI. Call this function in a loop to get button callbacks and UI updates. */
   void update();
+  /** Get the width of the screen. */
   uint16_t width();
+  /** Get the height of the screen. */
   uint16_t height();
+  /** Clear the screen and delete all elements */
   void clear(); // Clear the display. All components will be deleted.
 };
 
@@ -34,27 +83,51 @@ public:
   void align(int mode = ALIGN_CENTER);
 };
 
+/** Label class. Creates a simple label on the screen.
+ */
 class Label : public GUIObject{
 public:
+  /** Create an empty label */
   Label(){};
+  /** Create a label from lvgl object */
   Label(lv_obj_t * lbl);
+  /** Create a label with text `txt` */
   Label(const char * txt);
+  /** Create a label with text `txt` */
   Label(std::string txt);
+  /** Set text of the label to `txt` */
   void text(const char * txt);
+  /** Set text of the label to `txt` */
   void text(std::string txt);
+  /** Alighn text of the label to one of the options:
+   *  - ALIGN_TEXT_LEFT
+   *  - ALIGN_TEXT_CENTER
+   *  - ALIGN_TEXT_RIGHT
+   */
   void align_text(int mode);
 };
 
+/** Button class. Creates a simple button on the screen.
+ */
 class Button : public GUIObject{
 public:
   uint32_t _id;
   Label label;
+  /** Create an empty button */
   Button(){};
+  /** Create a button based on lvgl object */
   Button(lv_obj_t * btn);
+  /** Create a button, define on-click callback and label */
   Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt);
+  /** Create a button, define on-click callback and label */
   Button(lv_res_t (*callback)(lv_obj_t * btn), std::string txt);
+  /** Set size of the button */
   void size(uint16_t width, uint16_t height);
+  /** Set unique identifier of the button, can be used in the callback */
   void id(uint32_t);
+  /** Get unique identifier of the button.
+   *  Use this function in the callback to find out which button was pressed.
+   */
   uint32_t id();
 };
 
