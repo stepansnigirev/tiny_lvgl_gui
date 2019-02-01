@@ -3,6 +3,7 @@
 #include <tft.h>
 #include <touchpad.h>
 #include <lvgl.h>
+#include "utility/qrcode.h"
 
 /* timer to count time in a loop and update the lvgl */
 static volatile int t = 0;
@@ -10,6 +11,16 @@ Ticker ms_tick;
 static void onMillisecondTicker(void){
   t++;
 }
+
+LV_FONT_DECLARE(square1);
+LV_FONT_DECLARE(square2);
+LV_FONT_DECLARE(square3);
+LV_FONT_DECLARE(square4);
+LV_FONT_DECLARE(square5);
+LV_FONT_DECLARE(square6);
+LV_FONT_DECLARE(square7);
+LV_FONT_DECLARE(square8);
+
 
 /********* GUI class *********/
 
@@ -59,7 +70,7 @@ lv_obj_t * GUIObject::lv_object(){
   return obj;
 }
 void GUIObject::align(int mode){
-  lv_obj_align(obj, NULL, mode, lv_obj_get_x(obj), lv_obj_get_y(obj));
+  lv_obj_align(obj, NULL, mode, 0, lv_obj_get_y(obj));
 }
 
 /********* Label class *********/
@@ -122,4 +133,88 @@ void Button::id(uint32_t i){
 }
 uint32_t Button::id(){
   return lv_obj_get_free_num(obj);
+}
+
+/********* QR code class *********/
+static lv_style_t black_square;
+
+QR::QR(lv_obj_t * qr){
+  create(qr);
+}
+QR::QR(const char * txt){
+  create();
+  text(txt);
+}
+QR::QR(std::string txt){
+  create();
+  text(txt);
+}
+void QR::text(const char * txt){
+  if(obj == NULL){ return; }
+  text_to_encode = txt;
+  resize();
+}
+void QR::text(std::string txt){
+  text(txt.c_str());
+}
+void QR::size(uint16_t size){
+  lv_obj_set_size(obj, size, size);
+  width = size;
+  resize();
+}
+void QR::resize(){
+  int qrSize = 10;
+  int sizes[17] = { 14, 26, 42, 62, 84, 106, 122, 152, 180, 213, 251, 287, 331, 362, 412, 480, 504 };
+  int len = text_to_encode.length();
+  for(int i=0; i<17; i++){
+    if(sizes[i] > len){
+      qrSize = i+1;
+      break;
+    }
+  }
+
+  QRCode qrcode;
+  uint8_t * qrcodeData = (uint8_t *)calloc(qrcode_getBufferSize(qrSize), sizeof(uint8_t));
+  qrcode_initText(&qrcode, qrcodeData, qrSize, 1, text_to_encode.c_str());
+
+  char * qr = (char *)calloc((qrcode.size+2)*(qrcode.size+1)+1, sizeof(char));
+  char * c = qr;
+
+  for (uint8_t y = 0; y < qrcode.size; y++) {
+    for (uint8_t x = 0; x < qrcode.size; x++) {
+      if(qrcode_getModule(&qrcode, x, y)){
+        c[0] = '1';
+      }else{
+        c[0] = '0';
+      }
+      c++;
+    }
+    c[0] = '\n';
+    c++;
+  }
+  free(qrcodeData);
+  lv_style_copy(&black_square, &lv_style_plain);
+  uint font_size = width / qrcode.size;
+  if(font_size > 8){ font_size = 8; }
+  if(font_size < 1){ font_size = 1; }
+  lv_font_t * fonts[] = { &square1, &square2, &square3, &square4, &square5, &square6, &square7, &square8 };
+  black_square.text.font = fonts[font_size-1];
+	black_square.text.letter_space = 0;
+  black_square.text.line_space = 0;
+  black_square.text.color = LV_COLOR_HEX(0x000000);
+  lv_label_set_style(obj, &black_square);
+	lv_label_set_text(obj, qr);
+  free(qr);
+  lv_obj_set_size(obj, width, width);
+  lv_label_set_align(obj, ALIGN_TEXT_CENTER);
+}
+void QR::create(lv_obj_t * qr){
+  if(qr == NULL){
+    obj = lv_label_create(lv_scr_act(), NULL);
+  }else{
+    obj = qr;
+  }
+  width = 100;
+  lv_obj_set_size(obj, width, width);
+  text_to_encode = "QR code";
 }

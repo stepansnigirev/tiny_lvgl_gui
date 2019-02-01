@@ -116,7 +116,6 @@ public:
  */
 class Button : public GUIObject{
 public:
-  uint32_t _id;
   Label label;
   /** Create an empty button */
   Button(){};
@@ -134,6 +133,28 @@ public:
    *  Use this function in the callback to find out which button was pressed.
    */
   uint32_t id();
+};
+
+class QR : public GUIObject{
+  std::string text_to_encode;
+  void create(lv_obj_t * qr = NULL);
+  void resize();
+  uint16_t width;
+public:
+  /** Create an empty QR code */
+  QR(){};
+  /** Create a QR code based on lvgl object */
+  QR(lv_obj_t * qr);
+  /** Create a QR code and encode text there */
+  QR(const char * txt);
+  /** Create a QR code and encode a string there */
+  QR(std::string txt);
+  /** Set size of the QR code. Will be a square. */
+  void size(uint16_t size);
+  /** Set text to encode in the QR code */
+  void text(const char * txt);
+  /** Set string to encode in the QR code */
+  void text(std::string txt);
 };
 
 #endif // LVGL_MIN_GUI_H
