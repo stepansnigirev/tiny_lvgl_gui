@@ -1,28 +1,7 @@
 /** @file gui.h
  *  A header file defining classes of the tiny C++ lvgl wrapper.
  *  Only simple Label and Button classes are implemented.
- */
-
-#ifndef LVGL_MIN_GUI_H
-#define LVGL_MIN_GUI_H
-
-#include <lvgl.h>
-#include <string>
-
-#define ALIGN_CENTER LV_ALIGN_IN_TOP_MID
-#define ALIGN_LEFT   LV_ALIGN_IN_TOP_LEFT
-#define ALIGN_RIGHT  LV_ALIGN_IN_TOP_RIGHT
-
-#define ALIGN_TEXT_CENTER LV_LABEL_ALIGN_CENTER
-#define ALIGN_TEXT_RIGHT  LV_LABEL_ALIGN_RIGHT
-#define ALIGN_TEXT_LEFT   LV_LABEL_ALIGN_LEFT
-
-class Label;
-class Button;
-
-/** GUI class.
- *  Used to initialize the littlevgl library, the display and the touchscreen.
- *  Contains
+ *
  *  Example:
  *  @code
  *  #include <mbed.h>
@@ -64,6 +43,27 @@ class Button;
  *  }
  *  @endcode
  */
+
+#ifndef LVGL_MIN_GUI_H
+#define LVGL_MIN_GUI_H
+
+#include <lvgl.h>
+#include <string>
+
+#define ALIGN_CENTER LV_ALIGN_IN_TOP_MID
+#define ALIGN_LEFT   LV_ALIGN_IN_TOP_LEFT
+#define ALIGN_RIGHT  LV_ALIGN_IN_TOP_RIGHT
+
+#define ALIGN_TEXT_CENTER LV_LABEL_ALIGN_CENTER
+#define ALIGN_TEXT_RIGHT  LV_LABEL_ALIGN_RIGHT
+#define ALIGN_TEXT_LEFT   LV_LABEL_ALIGN_LEFT
+
+class Label;
+class Button;
+
+/** GUI class.
+ *  Used to initialize the littlevgl library, the display and the touchscreen.
+ */
 class GUI{
 public:
   /** Initialize and register the drivers. Should be called first in the very beginning */
@@ -104,7 +104,7 @@ public:
   void text(const char * txt);
   /** Set text of the label to `txt` */
   void text(std::string txt);
-  /** Alighn text of the label to one of the options:
+  /** Align text of the label to one of the options:
    *  - ALIGN_TEXT_LEFT
    *  - ALIGN_TEXT_CENTER
    *  - ALIGN_TEXT_RIGHT
