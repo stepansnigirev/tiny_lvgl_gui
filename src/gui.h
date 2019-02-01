@@ -1,6 +1,6 @@
 /** @file gui.h
  *  A header file defining classes of the tiny C++ lvgl wrapper.
- *  Only simple Label and Button classes are implemented.
+ *  Only simple Label, QR and Button classes are implemented.
  *
  *  Example:
  *  @code
