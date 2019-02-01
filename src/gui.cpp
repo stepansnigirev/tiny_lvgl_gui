@@ -194,7 +194,7 @@ void QR::resize(){
   }
   free(qrcodeData);
   lv_style_copy(&black_square, &lv_style_plain);
-  uint font_size = width / qrcode.size;
+  uint16_t font_size = width / qrcode.size;
   if(font_size > 8){ font_size = 8; }
   if(font_size < 1){ font_size = 1; }
   lv_font_t * fonts[] = { &square1, &square2, &square3, &square4, &square5, &square6, &square7, &square8 };
