@@ -29,7 +29,7 @@
  *    lbl = Label("Hello display!");
  *    lbl.size(gui.width(), 100); // full width
  *    lbl.position(0, 200);
- *    lbl.align_text(ALIGN_TEXT_CENTER);
+ *    lbl.alignText(ALIGN_TEXT_CENTER);
  *
  *    // Create a button
  *    Button btn(callback, "Click me!");
@@ -109,7 +109,7 @@ public:
    *  - ALIGN_TEXT_CENTER
    *  - ALIGN_TEXT_RIGHT
    */
-  void align_text(int mode);
+  void alignText(int mode);
 };
 
 /** Button class. Creates a simple button on the screen.
@@ -128,6 +128,8 @@ public:
   /** Set size of the button */
   void size(uint16_t width, uint16_t height);
   /** Set unique identifier of the button, can be used in the callback */
+  void text(const char * txt){ label.text(txt); };
+  void text(std::string txt){ label.text(txt); };
   void id(uint32_t);
   /** Get unique identifier of the button.
    *  Use this function in the callback to find out which button was pressed.

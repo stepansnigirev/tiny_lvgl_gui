@@ -96,7 +96,7 @@ void Label::text(const char * txt){
 void Label::text(std::string txt){
   text(txt.c_str());
 }
-void Label::align_text(int mode){
+void Label::alignText(int mode){
   if(obj == NULL){ return; }
   lv_label_set_align(obj, mode);
 }
@@ -115,6 +115,7 @@ Button::Button(lv_res_t (*callback)(lv_obj_t * btn), const char * txt){
   lv_obj_t * lbl = lv_label_create(obj, NULL);
   lv_label_set_text(lbl, txt);
   label = Label(lv_obj_get_child(obj, NULL));
+  label.alignText(ALIGN_TEXT_CENTER);
 }
 Button::Button(lv_res_t (*callback)(lv_obj_t * btn), std::string txt){
   obj = lv_btn_create(lv_scr_act(), NULL);
@@ -122,10 +123,12 @@ Button::Button(lv_res_t (*callback)(lv_obj_t * btn), std::string txt){
   lv_obj_t * lbl = lv_label_create(obj, NULL);
   lv_label_set_text(lbl, txt.c_str());
   label = Label(lv_obj_get_child(obj, NULL));
+  label.alignText(ALIGN_TEXT_CENTER);
 }
 void Button::size(uint16_t width, uint16_t height){
   // lv_cont_set_fit(obj, false, false);
   lv_obj_set_size(obj, width, height);
+  label.size(width, height);
 }
 void Button::id(uint32_t i){
   lv_obj_set_free_num(obj, i);
