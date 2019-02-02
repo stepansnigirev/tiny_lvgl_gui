@@ -167,9 +167,9 @@ void QR::size(uint16_t size){
 }
 void QR::resize(){
   int qrSize = 10;
-  int sizes[17] = { 14, 26, 42, 62, 84, 106, 122, 152, 180, 213, 251, 287, 331, 362, 412, 480, 504 };
+  int sizes[] = { 14, 26, 42, 62, 84, 106, 122, 152, 180, 213, 251, 287, 331, 362, 412, 480, 504, 560, 624, 666, 711, 779, 857, 911, 997, 1059, 1125, 1190 };
   int len = text_to_encode.length();
-  for(int i=0; i<17; i++){
+  for(int i=0; i<sizeof(sizes)/sizeof(int); i++){
     if(sizes[i] > len){
       qrSize = i+1;
       break;
