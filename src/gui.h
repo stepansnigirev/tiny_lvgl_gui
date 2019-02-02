@@ -130,11 +130,11 @@ public:
   /** Set unique identifier of the button, can be used in the callback */
   void text(const char * txt){ label.text(txt); };
   void text(std::string txt){ label.text(txt); };
-  void id(uint32_t);
+  void id(int32_t);
   /** Get unique identifier of the button.
    *  Use this function in the callback to find out which button was pressed.
    */
-  uint32_t id();
+  int32_t id();
 };
 
 class QR : public GUIObject{

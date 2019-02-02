@@ -130,11 +130,11 @@ void Button::size(uint16_t width, uint16_t height){
   lv_obj_set_size(obj, width, height);
   label.size(width, height);
 }
-void Button::id(uint32_t i){
+void Button::id(int32_t i){
   lv_obj_set_free_num(obj, i);
   // _id = i;
 }
-uint32_t Button::id(){
+int32_t Button::id(){
   return lv_obj_get_free_num(obj);
 }
 
