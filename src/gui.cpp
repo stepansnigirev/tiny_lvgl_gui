@@ -138,6 +138,21 @@ int32_t Button::id(){
   return lv_obj_get_free_num(obj);
 }
 
+/********* Keyboard class *********/
+
+Keyboard::Keyboard(lv_obj_t * btn){
+  obj = btn;
+}
+Keyboard::Keyboard(lv_res_t (*callback)(lv_obj_t * btn, const char * key), const char * keys[]){
+  obj = lv_btnm_create(lv_scr_act(), NULL);
+  lv_btnm_set_map(obj, keys);
+  lv_btnm_set_action(obj, callback);
+}
+void Keyboard::size(uint16_t width, uint16_t height){
+  // lv_cont_set_fit(obj, false, false);
+  lv_obj_set_size(obj, width, height);
+}
+
 /********* QR code class *********/
 static lv_style_t black_square;
 

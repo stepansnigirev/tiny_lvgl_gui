@@ -137,6 +137,21 @@ public:
   int32_t id();
 };
 
+/** Keyboard class. Creates a simple keyboard on the screen.
+ */
+class Keyboard : public GUIObject{
+public:
+  Label label;
+  /** Create an empty button */
+  Keyboard(){};
+  /** Create a button based on lvgl object */
+  Keyboard(lv_obj_t * btn);
+  /** Create a button, define on-click callback and label */
+  Keyboard(lv_res_t (*callback)(lv_obj_t * btn, const char * key), const char * keys[]);
+  /** Set size of the button */
+  void size(uint16_t width, uint16_t height);
+};
+
 class QR : public GUIObject{
   std::string text_to_encode;
   void create(lv_obj_t * qr = NULL);
