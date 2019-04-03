@@ -37,7 +37,7 @@ int main() {
   lbl = Label("Hello display!");
   lbl.size(gui.width(), 100); // full width
   lbl.position(0, 400);
-  lbl.align_text(ALIGN_TEXT_CENTER);
+  lbl.alignText(ALIGN_TEXT_CENTER);
 
   // Create a button
   Button btn(callback, "Click me!");
