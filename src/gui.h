@@ -135,6 +135,10 @@ public:
    *  Use this function in the callback to find out which button was pressed.
    */
   int32_t id();
+  /** Disables the button and makes it inactive */
+  void disable();
+  /** Enables the button and makes it active again */
+  void enable();
 };
 
 /** Keyboard class. Creates a simple keyboard on the screen.

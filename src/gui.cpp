@@ -137,6 +137,12 @@ void Button::id(int32_t i){
 int32_t Button::id(){
   return lv_obj_get_free_num(obj);
 }
+void Button::disable(){
+  lv_btn_set_state(obj, LV_BTN_STATE_INA);
+}
+void Button::enable(){
+  lv_btn_set_state(obj, LV_BTN_STATE_REL);
+}
 
 /********* Keyboard class *********/
 
